@@ -278,7 +278,7 @@ Cx_OPT += $(C_OPT_DEPS)
 CC_OPT  = $(Cx_OPT)
 CPP_OPT = $(Cx_OPT) -fno-rtti
 
-LDSCRIPT = link.ld
+LDSCRIPT = link_$(MCU).ld
 
 LNK_OPT  = -Wl,-Map=$(OUTDIR)/main.map -Wl,--cref -Wl,--emit-relocs -Wl,--gc-sections
 LNK_OPT += -nostartfiles --specs=nosys.specs --specs=nano.specs
