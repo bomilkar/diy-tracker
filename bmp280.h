@@ -75,7 +75,8 @@ class BMP280
      return 1; } // 0 => no error and correct ID
 
   uint8_t ReadCalib(void) // read the calibration constants from the EEPROM
-  { Error=I2C_Read(Bus, ADDR, REG_CALIB, (uint8_t *)Calib, 2*13);
+  { Error=I2C_Read(Bus, ADDR, REG_CALIB, (uint8_t *)Calib, 2*13); if(Error) return Error;
+    uint8_t Data=0x00; Error=I2C_Write(Bus, ADDR, REG_CONFIG, Data);
     return Error; }
 
   uint8_t ReadReady(void) // check if temperature and pressure conversion is done
@@ -91,8 +92,8 @@ class BMP280
     return 0xFF; }            // return "timeout" error
 
   uint8_t Trigger(void)                                    // start a temperature+pressure measurement
-  { uint8_t Data=0x00; Error=I2C_Write(Bus, ADDR, REG_CONFIG, Data); if(Error) return Error;
-            Data=0x55; Error=I2C_Write(Bus, ADDR, REG_CTRL,   Data); return Error; } // P.osp=16x, T.osp=2x
+  { // uint8_t Data=0x00; Error=I2C_Write(Bus, ADDR, REG_CONFIG, Data); if(Error) return Error;
+    uint8_t Data=0x55; Error=I2C_Write(Bus, ADDR, REG_CTRL,   Data); return Error; } // P.osp=16x, T.osp=2x
 
   uint8_t ReadRawPress(void)
   { RawPress=0;
